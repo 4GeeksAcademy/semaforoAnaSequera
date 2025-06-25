@@ -1,28 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
+import ReactDOM from "react-dom/client";
+import "../../styles/index.css";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+const TrafficLight = () => {
+    const [selectedColor, setSelectedColor] = useState("red");
 
-//create your first component
-const Home = () => {
-	return (
-		<div className="text-center">
-            
+    const handleClick = (color) => {
+        setSelectedColor(color);
+    };
 
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
-		</div>
-	);
+    return (
+        <div className="traffic-light">
+            <div
+                onClick={() => handleClick("red")}
+                className={`light red ${selectedColor === "red" ? "glow" : ""}`}
+            ></div>
+            <div
+                onClick={() => handleClick("yellow")}
+                className={`light yellow ${selectedColor === "yellow" ? "glow" : ""}`}
+            ></div>
+            <div
+                onClick={() => handleClick("green")}
+                className={`light green ${selectedColor === "green" ? "glow" : ""}`}
+            ></div>
+            <button onClick={() => {
+                let nextColor;
+                if (selectedColor === "red") {
+                    nextColor = "yellow";
+                } else if (selectedColor === "yellow") {
+                    nextColor = "green";
+                } else if (selectedColor === "green") {
+                    nextColor = "red";
+                } else {
+                    nextColor = "red"; 
+                }
+                setSelectedColor(nextColor);
+            }}>
+                Cambiar Automático
+            </button>
+        </div>
+    );
 };
 
-export default Home;
+const root = ReactDOM.createRoot(document.querySelector("#app")); 
+root.render(<TrafficLight />);
